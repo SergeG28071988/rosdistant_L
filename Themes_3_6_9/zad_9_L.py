@@ -81,28 +81,34 @@ def main():
   print('\nЗадание 2:')
   owners_cars = {}
   total_price = 0
-  for o in owners:
-    cars_price = sum([c.price for c in cars if c.owner_id == o.id])
-    owners_cars[o.fio] = cars_price
-    total_price += cars_price
-
-  sorted_owners_cars = sorted(owners_cars.items(), key=itemgetter(1), reverse=True)
-  for fio, price in sorted_owners_cars:
-    print(f'Автовладелец: {fio}, Стоимость автомобилей: {price}')
-  print(f'Суммарная стоимость автомобилей: {total_price}')
+  try:
+    for o in owners:
+      cars_price = sum([c.price for c in cars if c.owner_id == o.id])
+      owners_cars[o.fio] = cars_price
+      total_price += cars_price
+  except Exception as e:
+    print(f'Ошибка при подсчете стоимости автомобилей: {e}')
+  else:
+    sorted_owners_cars = sorted(owners_cars.items(), key=itemgetter(1), reverse=True)
+    for fio, price in sorted_owners_cars:
+      print(f'Автовладелец: {fio}, Стоимость автомобилей: {price}')
+    print(f'Суммарная стоимость автомобилей: {total_price}')
 
   print('\nЗадание 3:')
   owners_by_brand = {}
-  for o in owners:
-    brand = [c.brand for c in cars if c.owner_id == o.id][0]
-    if brand in owners_by_brand:
-      owners_by_brand[brand].append(o.fio)
-    else:
-      owners_by_brand[brand] = [o.fio]
-
-  sorted_owners_by_brand = sorted(owners_by_brand.items(), key=itemgetter(0))
-  for brand, fios in sorted_owners_by_brand:
-    print(f'Бренд: {brand}, Автовладельцы: {", ".join(fios)}')
+  try:
+    for o in owners:
+      brand = [c.brand for c in cars if c.owner_id == o.id][0]
+      if brand in owners_by_brand:
+        owners_by_brand[brand].append(o.fio)
+      else:
+        owners_by_brand[brand] = [o.fio]
+  except Exception as e:
+    print(f'Ошибка при формировании словаря: {e}')
+  else:
+    sorted_owners_by_brand = sorted(owners_by_brand.items(), key=itemgetter(0))
+    for brand, fios in sorted_owners_by_brand:
+      print(f'Бренд: {brand}, Автовладельцы: {", ".join(fios)}')
 
 
 if __name__ == '__main__':
